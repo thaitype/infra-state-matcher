@@ -144,5 +144,5 @@ export abstract class StateMatcher {
     }
   }
 
-  abstract run(): void;
+  abstract test(): void;
 }
