@@ -1,5 +1,5 @@
 {
-  "name": "infra-state-matcher",
+  "name": "@thaitype/infra-state-matcher",
   "version": "0.0.1",
   "description": "Support Terraform State for Matching config between 2 resources",
   "type": "module",
