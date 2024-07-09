@@ -1,8 +1,7 @@
 import { z } from "zod";
-import { baseInfraStateResourceSchema } from "../base-schema.js";
+import { baseResourceAnnotation } from "../resource-annotation.schema.js";
 
 export const terraformResourceSchema = z.object({
-  address: z.string(),
   mode: z.string(),
   type: z.string(),
   name: z.string(),
@@ -11,7 +10,7 @@ export const terraformResourceSchema = z.object({
   values: z.record(z.unknown()),
   sensitive_values: z.record(z.unknown()),
   depends_on: z.array(z.string()).optional(),
-  ...baseInfraStateResourceSchema,
+  ...baseResourceAnnotation,
 });
 
 export type TerraformResource = z.infer<typeof terraformResourceSchema>;
