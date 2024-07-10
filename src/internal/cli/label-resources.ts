@@ -2,6 +2,7 @@ import glob from "tiny-glob";
 import { logger } from "../libs/logger.js";
 import path from "node:path";
 import { MatchRunner } from "../match-runner.js";
+import { envSchema } from "../env.schema.js";
 
 export interface LabelResourcesOptions {
   testGlobPattern: string;
@@ -28,8 +29,9 @@ function validateMatchFile(matchImport: unknown, file: string): matchImport is {
 
 export async function startLabelResources(options: LabelResourcesOptions) {
   const { testGlobPattern } = options;
-  logger.info(`Starting Infra State Matcher...`);
-  logger.info(`State directory: ${testGlobPattern}`);
+  const env = envSchema.parse(process.env);
+  logger.info(`Running with environment: ${JSON.stringify(env)}`);
+  logger.info(`Test Match Pattern: '${testGlobPattern}'`);
   logger.log("Labeling resources...");
 
   const files = await glob(testGlobPattern);
@@ -40,10 +42,8 @@ export async function startLabelResources(options: LabelResourcesOptions) {
       continue;
     }
     const matchRunner = match.default;
-    // console.log(matchRunner); 
-    // logger.info(`matchRunner: ${JSON.stringify(matchRunner)}`);
     matchRunner.init({
-      debug: true,
+      debug: env.DEBUG,
     });
     await matchRunner.labelResources();
   }

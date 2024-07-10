@@ -54,16 +54,13 @@ export abstract class StateMatcher {
   }
 
   constructor(public readonly annotation: ResourceAnnotation, options: Partial<StateMatcherOptions> = {}) {
-    console.info(`Before Debug: option = ${JSON.stringify(options, null, 2)}`);
     this.options = Object.assign({}, StateMatcher.defaultOptions, options);
     const testSuiteDir = this.constructor.name;
-    console.log(`this.options.stateFile = ${this.options.stateFile}`)
     this.options.stateFile = path.join(this.options.workingDir, this.options.stateFile);
     this.options.generateDir = path.join(this.options.workingDir, this.options.generateDir, testSuiteDir);
     this.serializedState = this.options.serializedState!;
     this.logger = this.options.logger;
     this.logger.debug("State Matcher initialized...");
-    this.logger.info(`Debug: option = ${JSON.stringify(this.options, null, 2)}`);
   }
 
   private convertToRelativePath(basePath: string, absolutePath: string) {
