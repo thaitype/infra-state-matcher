@@ -27,7 +27,7 @@ function validateMatchFile(matchImport: unknown, file: string): matchImport is {
   return false;
 }
 
-export async function startLabelResources(options: LabelResourcesOptions) {
+export async function build(options: LabelResourcesOptions) {
   const { testGlobPattern } = options;
   const env = envSchema.parse(process.env);
   logger.info(`Running with environment: ${JSON.stringify(env)}`);

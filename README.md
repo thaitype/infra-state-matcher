@@ -1,24 +1,39 @@
-# NPM package boilerplate with TypeScript, ESM, and Bun
+# Infra State Matcher
+Support Terraform State for Matching config between resources e.g. compare config between Active Site & DR Site
 
-NPM TypeScript Boilerplate with Bun, ESM, using TSC without bundler, support Sourcemap from TypeScript
+## Getting Started
 
-## Development
+### Installation
+
+```
+npm install @thaitype/infra-state-matcher
+```
+
+### Usage
+
+1. Write a configuration file for matching resources between two Terraform states, see example in `examples/simple.match.ts`
+2. Run build command to generate the matcher type helper, `ism build`
+3. Run start command to start the matching process, `ism`
+
+## Local Development
+
+### Development
 ```
 bun install
 bun run build
 ```
 
-## Type Checking
+### Type Checking
 ```
 bun run check
 ```
 
-## Type Checking with Watch
+### Type Checking with Watch
 ```
 bun run check:watch
 ```
 
-## Publish
+### Publish
 
 Using `release-it` to publish the package, using npm commandline with OTP (One Time Password) for 2FA (Two Factor Authentication)
 

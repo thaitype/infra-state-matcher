@@ -1,7 +1,7 @@
 {
   "name": "@thaitype/infra-state-matcher",
   "version": "0.0.3",
-  "description": "Support Terraform State for Matching config between 2 resources",
+  "description": "Support Terraform State for Matching config between resources e.g. compare config between Active Site & DR Site",
   "type": "module",
   "scripts": {
     "check": "tsc -b tsconfig.json",
@@ -29,9 +29,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/thaitype/npm-typescript-esm-bun-boilerplate.git"
+    "url": "https://github.com/thaitype/infra-state-matcher.git"
   },
-  "homepage": "https://github.com/thaitype/npm-typescript-esm-bun-boilerplate",
+  "homepage": "https://github.com/thaitype/infra-state-matcher",
   "publishConfig": {
     "access": "public",
     "directory": "dist"
