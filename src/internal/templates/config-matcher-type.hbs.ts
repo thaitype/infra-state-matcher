@@ -12,7 +12,7 @@ const handlebarsTemplate = stripIndent(`
  */
 
 export type State = {
-  {{stateTypeUnion}}
+{{{stateTypeUnion}}}
 };
 `);
 
