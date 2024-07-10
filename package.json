@@ -8,10 +8,11 @@
     "check:watch": "tsc  -b tsconfig.json -w",
     "prepublishOnly": "bun run build",
     "release": "bun run build && release-it",
-    "build": "bun build-esm && bun build-cjs && bun build-annotate",
+    "build": "bun build-esm && bun build-cjs && bun build-annotate && bun post-cli",
     "build-esm": "tsc -b tsconfig.build.json",
     "build-cjs": "babel dist/esm --plugins @babel/transform-export-namespace-from --plugins @babel/transform-modules-commonjs --out-dir dist/cjs --source-maps",
-    "build-annotate": "babel dist --plugins annotate-pure-calls --out-dir dist --source-maps"
+    "build-annotate": "babel dist --plugins annotate-pure-calls --out-dir dist --source-maps",
+    "post-cli": "bun run scripts/insert-shebang.ts dist/esm/cli.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.24.5",
@@ -60,6 +61,7 @@
     "handlebars": "^4.7.8",
     "picocolors": "^1.0.1",
     "strip-indent": "^4.0.0",
+    "tiny-glob": "^0.2.9",
     "zod": "^3.23.8"
   }
 }

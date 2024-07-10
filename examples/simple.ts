@@ -20,6 +20,6 @@ export default new MatchRunner({
   annotation: SimpleResourceAnnotation,
   stateMather: SimpleStateMatcher,
   options: {
-    stateFile: "state.json",
+    stateFile: ".state/prod.state.json",
   }
 });

@@ -12,6 +12,7 @@
     "node_modules",
     "dist",
     "doc",
+    "scripts",
     "examples",
     "src/**/*.spec.ts",
     "src/**/*.test.ts",
