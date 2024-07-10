@@ -1,7 +1,7 @@
 import fs from "fs";
 
 const filePath = process.argv[2];
-const shebang = "#!/usr/bin/env node\n";
+const shebang = "#!/usr/bin/env bun\n";
 
 async function prependShebang() {
   try {

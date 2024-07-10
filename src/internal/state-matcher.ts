@@ -117,14 +117,14 @@ export abstract class StateMatcher {
 
   protected prepareResourceAnnotationMap(): void {
     this.validateState();
-    this.logger.info("Preparing  annotation map...");
+    this.logger.info("Preparing annotation map...");
     for (const resource of this.serializedState) {
       if (resource.ism_annotation_id) {
         this.resourceAnnotationMap.set(resource.ism_annotation_id, resource);
       }
     }
     if (this.options.debug) {
-      this.logger.debug("Writing  annotation map to file...");
+      this.logger.debug("Writing annotation map to file...");
       fs.writeFileSync(
         path.join(this.options.generateDir, "annotation-map.json"),
         JSON.stringify(Object.fromEntries(this.resourceAnnotationMap), null, 2)

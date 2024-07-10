@@ -1,6 +1,8 @@
 # Infra State Matcher
 Support Terraform State for Matching config between resources e.g. compare config between Active Site & DR Site
 
+> Only support bun runtime, for Node.js Runtime, please open the PR for fixing `#!/usr/bin/env node` shebang on `scripts/insert-shebang.ts` file which can able to load TypeScript file
+
 ## Getting Started
 
 ### Installation
