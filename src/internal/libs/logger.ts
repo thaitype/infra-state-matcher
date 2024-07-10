@@ -19,7 +19,7 @@ export class ConsoleLogger implements Logger {
   }
 
   warn(message: string): void {
-    console.warn(`[WARN] ${message}`);
+    console.warn(pc.yellow(`[WARN] ${message}`));
   }
 
   debug(message: string): void {

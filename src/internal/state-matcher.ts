@@ -7,6 +7,7 @@ import type { GenericResourceAnnotation } from "./providers/resource-annotation.
 import type { StateManager } from "./providers/state-manager.js";
 import { TerraformStateManager } from "./providers/terraform/terraform-state-manager.js";
 import type { ResourceAnnotation } from "./providers/resource-annotation.js";
+import { cons } from "effect/List";
 
 type AnyResourceAnnotationAddress = string;
 type ResourceAnnotationId = string;
@@ -41,23 +42,28 @@ export abstract class StateMatcher {
 
   protected resourceMap = new Map<AnyResourceAnnotationAddress, GenericResourceAnnotation>();
   protected resourceAnnotationMap = new Map<ResourceAnnotationId, GenericResourceAnnotation>();
+  
+  public static defaultOptions: StateMatcherOptions = {
+    logger: logger,
+    debug: false,
+    generateDir: "./.gen",
+    stateFile: "./prod.state.json",
+    serializedState: undefined,
+    workingDir: process.cwd(),
+    stateManager: new TerraformStateManager(),
+  }
 
   constructor(public readonly annotation: ResourceAnnotation, options: Partial<StateMatcherOptions> = {}) {
-    const defaultOptions: StateMatcherOptions = {
-      logger: logger,
-      debug: false,
-      generateDir: "./.gen",
-      stateFile: "./prod.state.json",
-      serializedState: undefined,
-      workingDir: process.cwd(),
-      stateManager: new TerraformStateManager(),
-    };
-    this.options = Object.assign({}, defaultOptions, options);
+    console.info(`Before Debug: option = ${JSON.stringify(options, null, 2)}`);
+    this.options = Object.assign({}, StateMatcher.defaultOptions, options);
     const testSuiteDir = this.constructor.name;
+    console.log(`this.options.stateFile = ${this.options.stateFile}`)
     this.options.stateFile = path.join(this.options.workingDir, this.options.stateFile);
     this.options.generateDir = path.join(this.options.workingDir, this.options.generateDir, testSuiteDir);
     this.serializedState = this.options.serializedState!;
     this.logger = this.options.logger;
+    this.logger.debug("State Matcher initialized...");
+    this.logger.info(`Debug: option = ${JSON.stringify(this.options, null, 2)}`);
   }
 
   private convertToRelativePath(basePath: string, absolutePath: string) {
