@@ -11,7 +11,7 @@ class SimpleStateMatcher extends StateMatcher {
         actual: { site: 'dr' },
         expected: { site: 'active' },
       },
-    } as any);
+    });
 
     // Starting matching the resource `azurerm_app_service` with the service `web` and scope `contractor`
     const contractorWeb = matcher.createResourceMatcher<State['azurerm_app_service.common_auth_gateway']>({
