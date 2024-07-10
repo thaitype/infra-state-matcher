@@ -22,7 +22,7 @@ export class MatchRunner {
   }
 
   run() {
-    this.stateMatcher.test();
+    this.stateMatcher.match();
   }
 
   async labelResources() {

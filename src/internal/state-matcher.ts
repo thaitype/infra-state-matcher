@@ -147,5 +147,5 @@ export abstract class StateMatcher {
     }
   }
 
-  abstract test(): void;
+  abstract match(): void;
 }

@@ -3,7 +3,7 @@ import type { State } from '../.gen/SimpleStateMatcher/types.js';
 
 // Step 1: Write your test code here
 class SimpleStateMatcher extends StateMatcher {
-  test() {
+  match() {
     console.log("SimpleStateMatcher is running");
 
     const matcher = new ConfigMatcher({
