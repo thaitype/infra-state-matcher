@@ -16,7 +16,7 @@ const testGlobPattern = Options.file("test-pattern").pipe(
 );
 const mainCommand = Command.make("main", { testGlobPattern }, args =>
   Effect.tryPromise({
-    try: () => start(),
+    try: () => start(args),
     catch: error => console.error(error),
   })
 );

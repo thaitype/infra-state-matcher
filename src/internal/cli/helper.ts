@@ -31,7 +31,7 @@ export function validateMatchFile(matchImport: unknown, file: string): matchImpo
 
 export async function executeMatchRunner(
   options: BaseCommandOptions,
-  fn: (instance: MatchRunner) => MaybePromise<void>
+  fn: (matchRunner: MatchRunner) => MaybePromise<void>
 ): Promise<void> {
   const { testGlobPattern } = options;
   const env = envSchema.parse(process.env);
