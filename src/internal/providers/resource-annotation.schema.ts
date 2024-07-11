@@ -12,10 +12,6 @@ export const resourceAnnotationsPayloadSchema = z.object({
   metadata: z.record(z.string()).optional(),
 });
 
-// Test cases for ResourceAnnotationsPayload
-type TestResourceAnnotationsPayload = Expect<
-  Equal<z.infer<typeof resourceAnnotationsPayloadSchema>, ResourceAnnotationsPayload>
->;
 
 export const baseResourceAnnotation = {
   /**

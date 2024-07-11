@@ -15,7 +15,7 @@ export type SimpleResourceAnnotationsPayload = ResourceAnnotationsPayload<{
   scope: "contractor";
   service: "web" | "api";
   resource_type: "azurerm_app_service" | "azurerm_function_app";
-  metadata: Record<string, unknown>;
+  metadata: Record<string, string>;
 }>;
 
 // Step 1: Write your test code here

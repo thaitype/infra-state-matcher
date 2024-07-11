@@ -9,7 +9,7 @@ export interface ResourceAnnotationsPayload<
     scope: string;
     service: string;
     resource_type: string;
-    metadata: Record<string, unknown>;
+    metadata?: Record<string, string>;
   } = {
     env: string;
     site: string;
@@ -17,7 +17,7 @@ export interface ResourceAnnotationsPayload<
     scope: string;
     service: string;
     resource_type: string;
-    metadata: Record<string, unknown>;
+    metadata?: Record<string, string>;
   }
 > {
   /**
