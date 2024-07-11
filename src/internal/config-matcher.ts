@@ -1,47 +1,54 @@
 import type { SetOptional } from "type-fest";
 import type { ResourceAnnotationsPayload } from "./providers/resource-annotation-payload.js";
 
-export type DefaultResourceAnnotationsPayload = Pick<ResourceAnnotationsPayload, "env" | "slot">;
 export type ConfigableResourceAnnotationPayload = SetOptional<ResourceAnnotationsPayload, "env" | "slot" | "site">;
 
-export interface IConfigMatcher {
-  defaultResourceAnnotation: DefaultResourceAnnotationsPayload;
-  defaultPair: {
-    /**
-     * Config which key will be flagged as a match for the expected key
-     * @default `{ site: 'active' }`
-     */
-    expected: Partial<ResourceAnnotationsPayload>;
-    /**
-     * Config which key will be flagged as a match for the actual key
-     * @default `{ site: 'dr' }`
-     */
-    actual: Partial<ResourceAnnotationsPayload>;
-  };
-}
+export class ConfigMatcher<
+  TDefaultBasePayload extends Partial<ResourceAnnotationsPayload>,
+  TDefaultTargetPayload extends Partial<ResourceAnnotationsPayload>,
+  TDefaultPayload extends Partial<ResourceAnnotationsPayload>,
+  TResourceAnnotationsPayload extends ResourceAnnotationsPayload = ResourceAnnotationsPayload
+> {
+  configResourceAnnotation<TResourceAnnotationsPayload extends ResourceAnnotationsPayload>() {
+    return this as unknown as ConfigMatcher<
+      TDefaultBasePayload,
+      TDefaultTargetPayload,
+      TDefaultPayload,
+      TResourceAnnotationsPayload
+    >;
+  }
 
-export class ConfigMatcher {
-  public readonly defaultResourceAnnotation: DefaultResourceAnnotationsPayload;
-  public readonly expected: Partial<ResourceAnnotationsPayload>;
-  public readonly actual: Partial<ResourceAnnotationsPayload>;
-
-  constructor(options?: Partial<IConfigMatcher>) {
-    this.expected = options?.defaultPair?.expected ?? {
-      site: "active",
+  configDefault<
+    LocalDefaultBasePayload extends Partial<TResourceAnnotationsPayload>,
+    LocalDefaultTargetPayload extends Partial<ResourceAnnotationsPayload>,
+    LocalDefaultPayload extends Partial<TResourceAnnotationsPayload>
+  >(options: {
+    defaultResourceAnnotation: LocalDefaultPayload;
+    defaultPair: {
+      /**
+       * Config which key will be flagged as a match for the expected key
+       * e.g. `{ site: 'dr' }`
+       */
+      base: LocalDefaultBasePayload;
+      /**
+       * Config which key will be flagged as a match for the actual key
+       * e.g. `{ site: 'active' }`
+       */
+      target: LocalDefaultTargetPayload;
     };
-    this.actual = options?.defaultPair?.actual ?? {
-      site: "dr",
-    };
-    this.defaultResourceAnnotation = options?.defaultResourceAnnotation ?? {
-      env: "prod-mt",
-      slot: "prod",
-    };
+  }) {
+    return this as ConfigMatcher<
+      LocalDefaultBasePayload,
+      LocalDefaultTargetPayload,
+      LocalDefaultPayload,
+      TResourceAnnotationsPayload
+    >;
   }
 
   createResourceMatcher<JsonResourceKey extends string>(
-    payload: ConfigableResourceAnnotationPayload
+    payload: Omit<TResourceAnnotationsPayload, keyof TDefaultBasePayload | keyof TDefaultPayload>
   ): ResourceMatcher<JsonResourceKey> {
-    return new ResourceMatcher<JsonResourceKey>(payload);
+    return new ResourceMatcher<JsonResourceKey>(payload as TResourceAnnotationsPayload);
   }
 }
 
@@ -73,3 +80,20 @@ export class WithMatcher {
     console.log("custom");
   }
 }
+type InvertProperties<T, U> = {
+  [K in keyof T]: T[K] extends U[keyof U] ? undefined : T[K];
+};
+
+export interface Animal {
+  name: string;
+  age: number;
+  type: string;
+}
+
+type AnimalType = Omit<Animal, "age">;
+// Expected: { name: string, type: string }
+
+const aaa: AnimalType = {
+  name: "name",
+  type: "type",
+};

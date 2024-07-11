@@ -2,42 +2,54 @@
  * Resource Annotations Payload
  */
 export interface ResourceAnnotationsPayload<
-  TEnv extends string = string,
-  TSite extends string = string,
-  TSlot extends string = string,
-  TScope extends string = string,
-  TService extends string = string,
-  TResourceType extends string = string,
-  TMetadata extends Record<string, string> = Record<string, string>
+  TPayload extends {
+    env: string;
+    site: string;
+    slot: string;
+    scope: string;
+    service: string;
+    resource_type: string;
+    metadata: Record<string, unknown>;
+  } = {
+    env: string;
+    site: string;
+    slot: string;
+    scope: string;
+    service: string;
+    resource_type: string;
+    metadata: Record<string, unknown>;
+  }
 > {
   /**
    * Logical Environment Name, e.g. dev, uat, prod
    */
-  env: TEnv;
+  env: TPayload["env"];
   /**
    * Logical Site Name, e.g. active_site, dr_site
    */
-  site: TSite;
+  site: TPayload["site"];
   /**
    * Logical Slot Name, e.g. staging, prod
    */
-  slot: TSlot;
+  slot: TPayload["slot"];
   /**
    * Logical Scope Name, e.g. tenant, customer, group
    */
-  scope: TScope;
+  scope: TPayload["scope"];
   /**
    * Logical Service Name, e.g. api_gateway
    */
-  service: TService;
+  service: TPayload["service"];
   /**
    * Infra Resource Type, e.g. Terraform Azurerm Provider
    * Example value: `azurerm_virtual_network`
    */
-  resource_type: TResourceType;
+  resource_type: TPayload["resource_type"];
   /**
    * Metadata for the resource
    * Example value: `{ name: 'my-vnet', location: 'eastus' }`
    */
-  metadata?: TMetadata;
+  metadata?: TPayload["metadata"];
 }
+
+

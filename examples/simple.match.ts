@@ -1,26 +1,64 @@
-import { ConfigMatcher, MatchRunner, ResourceAnnotation, StateMatcher, type GenericResourceAnnotation } from "../src/index.js";
-import type { State } from '../.gen/SimpleStateMatcher/types.js';
+import {
+  ConfigMatcher,
+  MatchRunner,
+  ResourceAnnotation,
+  StateMatcher,
+  type GenericResourceAnnotation,
+  type ResourceAnnotationsPayload,
+} from "../src/index.js";
+import type { State } from "../.gen/SimpleStateMatcher/types.js";
+
+export type SimpleResourceAnnotationsPayload = ResourceAnnotationsPayload<{
+  env: "dev" | "prod";
+  site: "active" | "dr";
+  slot: "staging" | "prod";
+  scope: "contractor";
+  service: "web" | "api";
+  resource_type: "azurerm_app_service" | "azurerm_function_app";
+  metadata: Record<string, unknown>;
+}>;
 
 // Step 1: Write your test code here
 class SimpleStateMatcher extends StateMatcher {
   match() {
     console.log("SimpleStateMatcher is running");
 
-    const matcher = new ConfigMatcher({
-      defaultPair: {
-        actual: { site: 'dr' },
-        expected: { site: 'active' },
-      },
-    });
+    const matcher = new ConfigMatcher()
+      // Config Resource Annotation Literal
+      .configResourceAnnotation<SimpleResourceAnnotationsPayload>()
+      // Config Default behavior
+      .configDefault({
+        defaultPair: {
+          base: { site: "dr" },
+          target: { site: "active" },
+        },
+        defaultResourceAnnotation: {
+          env: "dev",
+          slot: "prod",
+        },
+      });
 
     // Starting matching the resource `azurerm_app_service` with the service `web` and scope `contractor`
-    const contractorWeb = matcher.createResourceMatcher<State['azurerm_app_service.common_auth_gateway']>({
-      resource_type: 'azurerm_app_service',
-      service: 'web',
-      scope: 'contractor',
+    const contractorWeb = matcher.createResourceMatcher<State["azurerm_app_service.contractor_dr_api"]>({
+      resource_type: "azurerm_app_service",
+      service: "web",
+      scope: "contractor",
     });
 
-    contractorWeb.expectKey('values.app_settings.APPLICATIONINSIGHTS_CONNECTION_STRING').matchConstant('value');
+    // Matching the resource `azurerm_app_service` with the service `api` and scope `contractor`
+    contractorWeb
+      .expectKey("values.app_settings.APPINSIGHTS_INSTRUMENTATIONKEY")
+      .matchWith<State["azurerm_app_service.contractor_api"]>("values.app_settings.APPINSIGHTS_INSTRUMENTATIONKEY");
+    // Short hand for the above
+    contractorWeb.expectKey("values.app_settings.APPINSIGHTS_INSTRUMENTATIONKEY").match()
+
+    // Matching with different resource type
+    contractorWeb.expectKey("values.app_settings.AzureStorageContainers").matchWith<State["azurerm_app_service.contractor_api"]>(
+      "values.app_settings.APPINSIGHTS_INSTRUMENTATIONKEY", {
+        resource_type: "azure"
+      })
+    // Matching the resource `azurerm_app_service` with the service `web` and scope `contractor` with constant value
+    contractorWeb.expectKey("values.app_settings.AzureStorageContainers").matchConstant("data");
   }
 }
 
