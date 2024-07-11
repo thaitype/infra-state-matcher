@@ -18,7 +18,7 @@ export class ConfigMatcher<
     >;
   }
 
-  configDefault<
+  config<
     LocalDefaultBasePayload extends Partial<TResourceAnnotationsPayload>,
     LocalDefaultTargetPayload extends Partial<ResourceAnnotationsPayload>,
     LocalDefaultPayload extends Partial<TResourceAnnotationsPayload>

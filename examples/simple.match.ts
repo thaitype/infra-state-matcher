@@ -27,7 +27,7 @@ class SimpleStateMatcher extends StateMatcher {
       // Config Resource Annotation Literal
       .configResourceAnnotation<SimpleResourceAnnotationsPayload>()
       // Config Default behavior
-      .configDefault({
+      .config({
         defaultPair: {
           base: { site: "dr" },
           target: { site: "active" },
