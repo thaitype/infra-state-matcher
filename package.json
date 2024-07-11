@@ -1,6 +1,6 @@
 {
   "name": "@thaitype/infra-state-matcher",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Support Terraform State for Matching config between resources e.g. compare config between Active Site & DR Site",
   "type": "module",
   "scripts": {
